@@ -48,7 +48,7 @@ python train_rqvae.py --config configs/rqvae_unified.yaml
 With the supplied seed and output directory, the selected checkpoint is:
 
 ```text
-output/Movies_nm_rqvae_unified_seed_0/best.pt
+output/Movies_nm_rqvae_unified_seed_42/best.pt
 ```
 
 The model uses three quantization layers, 256 codes per layer, and three 64-dimensional latent blocks in `collab`, `text`, `vision` order. Text and visual embeddings have dimension 768; collaborative embeddings have dimension 256. Initialization processes the full item catalog and can require substantial GPU memory.
@@ -77,7 +77,7 @@ python train_mosid.py --config configs/mosid.yaml
 The default micro-batch size is 512 with four gradient-accumulation steps. Stage 2 uses three branches initialized from the unified codebook blocks, sequence generation losses, memory orthogonalization, and raw compatibility supervision. The selected checkpoint is:
 
 ```text
-output/Movies_nm_mosid_seed_0-0/best.pt
+output/Movies_nm_mosid_seed_42-42/best.pt
 ```
 
 The first seed in this directory name comes from the exported Stage 1 metadata; the second is the Stage 2 training seed. Each run saves a resolved `config.yaml` and training logs. Existing complete seeded runs are reused.
