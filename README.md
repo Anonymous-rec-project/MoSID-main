@@ -57,7 +57,7 @@ The model uses three quantization layers, 256 codes per layer, and three 64-dime
 ```bash
 python scripts/export_sid.py \
   --config configs/rqvae_unified.yaml \
-  --checkpoint output/Movies_nm_rqvae_unified_seed_0/best.pt
+  --checkpoint output/Movies_nm_rqvae_unified_seed_42/best.pt
 ```
 
 This writes the following files into `datasets/amazon/Movies/nm/`:
@@ -87,7 +87,7 @@ To run a fresh experiment while preserving previous outputs, use a different `--
 
 ```bash
 python test_mosid.py \
-  --checkpoint output/Movies_nm_mosid_seed_0-0/best.pt \
+  --checkpoint output/Movies_nm_mosid_seed_42-42/best.pt \
   --split test
 ```
 
