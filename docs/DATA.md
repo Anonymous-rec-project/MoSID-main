@@ -2,7 +2,7 @@
 
 ## Download
 
-The preprocessed data are hosted on [Hugging Face Datasets](https://huggingface.co/AnonymousButt/MoSID-data).
+The preprocessed data are hosted on [Hugging Face Datasets](https://huggingface.co/datasets/AnonymousButt/MoSID-data).
 
 The version used for this release is [HF_COMMIT](https://huggingface.co/datasets/AnonymousButt/MoSID-data/tree/766b67a9640e29d7acfd37fddffbbc9036a4ad76).
 
