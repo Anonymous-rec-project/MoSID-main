@@ -1,7 +1,7 @@
 # ===== Data =====
 data:
   base_path: "./datasets/amazon"
-  dataset: "Books"
+  dataset: "Movies"
   mode: "nm"
   sm_prob: 0.0
   max_len: 50
