@@ -41,7 +41,7 @@ train:
   eval_every: 1
   output_dir: "./output"
   gpu_id: 0
-  seed: 0
+  seed: 42
   tensorboard: false
 
   es_warmup: 10

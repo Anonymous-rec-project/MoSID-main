@@ -1,11 +1,39 @@
 # Preprocessed data specification
 
-Download: pending publication.
+## Download
+
+The preprocessed data are hosted on [Hugging Face Datasets](https://huggingface.co/AnonymousButt/MoSID-data).
+
+The version used for this release is [HF_COMMIT](https://huggingface.co/datasets/AnonymousButt/MoSID-data/tree/766b67a9640e29d7acfd37fddffbbc9036a4ad76).
+
+Run the following commands from the MoSID source repository root on Linux:
+
+```bash
+python -m pip install huggingface_hub
+
+hf download HF_REPO_ID \
+  --repo-type dataset \
+  --revision HF_COMMIT \
+  --include "Movies/nm/*" \
+  --include "SHA256SUMS.txt" \
+  --local-dir datasets/amazon
+
+(
+  cd datasets/amazon
+  sha256sum -c SHA256SUMS.txt
+)
+```
+
+No Hugging Face login is required for this public dataset.
+
+The expected directory is `datasets/amazon/Movies/nm/`. Every data file should report `OK` during checksum verification.
+
+After downloading, follow the Stage 1 training, SID export, Stage 2 training, and evaluation commands in the source README.
 
 Place the files in the following directory before running Stage 1:
 
 ```text
-datasets/amazon/Books/nm/
+datasets/amazon/Movies/nm/
   txt_emb.pt
   img_emb.pt
   collab_emb.pt
@@ -16,9 +44,7 @@ datasets/amazon/Books/nm/
   test.pkl
 ```
 
-Let `N` be the number of items. Item IDs must be contiguous integers `1..N`,
-with ID `0` reserved for padding. All embedding, presence, SID, and sequence
-files must use the same item-ID mapping.
+Let `N` be the number of items. Item IDs must be contiguous integers `1..N`, with ID `0` reserved for padding. All embedding, presence, SID, and sequence files must use the same item-ID mapping.
 
 | File | Required content |
 | --- | --- |
