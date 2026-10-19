@@ -1,6 +1,6 @@
 data:
   base_path: "./datasets/amazon"
-  dataset: "Books"
+  dataset: "Movies"
   mode: "nm"
   modality: "unified"
   sm_prob: 0.0
