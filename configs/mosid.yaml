@@ -1,0 +1,91 @@
+# ===== Data =====
+data:
+  base_path: "./datasets/amazon"
+  dataset: "Books"
+  mode: "nm"
+  sm_prob: 0.0
+  max_len: 50
+
+# ===== Lightweight encoder-decoder SID model =====
+model:
+  sid_artifact_mode: "unified"  # separate | unified
+  encoder_mode: "bidirection"  # causal | bidirection
+  channels: ["text", "vision", "collab"]
+  active_channels: ["text", "vision", "collab"]
+  sid_embed_dim: 64
+  hidden_dim: 300
+  n_heads: 6
+  history_layers: 2
+  decoder_layers: 2
+  ff_dim: 512  # FFN hidden width; per gate/value branch for SwiGLU
+  ff_activation: "leaky_relu"  # relu | gelu | leaky_relu | SwiGLU
+  dropout: 0.2
+
+# ===== Stage 2 losses =====
+loss:
+  branch_weights: {text: 1.0, vision: 1.0, collab: 1.0}
+  memory_orth_weight: 1.0
+  memory_orth_uniform_weights: false  # true: Uniform Weights; valid SID tokens weight 1, padding 0
+  memory_orth_direct: false  # true: Direct Orthogonalization over all three memory pairs
+  memory_orth_center: true  # false: w/o Centering (use memory_orth_direct=false for residual ablation)
+  raw_aux_weight: 0.1
+  raw_temperature: 0.2
+  raw_use_history_reliability: true  # false: w/o Reliability; applies to training and inference
+  raw_prefix_hard_negative_counts_by_lcp: [0, 2, 1, 1]
+  raw_random_negatives: false  # true: replace extra prefix negatives with equally many random items
+
+# ===== Training =====
+train:
+  # Micro-batch size used by DataLoader.
+  batch_size: 512
+  grad_accum_steps: 4
+  lr: 1.0e-3
+  weight_decay: 1.0e-2
+  max_epochs: 500
+  eval_every: 1
+  patience: 10
+  early_stop_metric: "beam_ndcg@10"
+  early_stop_min_delta: 1.0e-6
+  grad_clip: 1.0
+  num_workers: 32
+  output_dir: "./output"
+  gpu_id: 0
+  seed: 0
+  tensorboard: false
+
+# ===== Precision =====
+precision:
+  amp: true
+  dtype: "bf16"
+
+# ===== Beam inference and non-learned fusion =====
+inference:
+  valid_beam_size: 10
+  test_beam_size: 50
+  beam_logits_chunk_size: 8192
+
+rrf:
+  k: 30.0
+  raw_compat_weight: 1.0
+  rank_fusion_weight: 1.0
+
+  tune_every: 1
+  sample_count: 100
+  gs_on_valid: true
+  param_choices:
+    k: [30.0]
+    raw_compat_weight: [
+      0.0, 0.1, 0.2, 0.3,
+      0.4, 0.5, 0.6, 0.7,
+      0.8, 0.9, 1.0, 1.5]
+    rank_fusion_weight: [
+      0.0, 0.1, 0.2, 0.3,
+      0.4, 0.5, 0.6, 0.7,
+      0.8, 0.9, 1.0, 1.5]
+  selection_metric: "beam_ndcg@10"
+
+# ===== Beam-only evaluation =====
+evaluation:
+  batch_size: 512
+  top_k: [10, 20]
+  max_batches: 0

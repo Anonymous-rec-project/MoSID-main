@@ -1,0 +1,5 @@
+# Reference versions; Linux execution has not been validated for this release.
+torch==2.7.1
+numpy==2.4.4
+PyYAML==6.0.3
+tqdm==4.68.3

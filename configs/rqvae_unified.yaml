@@ -1,0 +1,53 @@
+data:
+  base_path: "./datasets/amazon"
+  dataset: "Books"
+  mode: "nm"
+  modality: "unified"
+  sm_prob: 0.0
+
+model:
+  text_input_dim: 768
+  visual_input_dim: 768
+  collab_input_dim: 256
+  latent_block_dim: 64
+  enc_dec_mode: "mlp"  # "linear" | "mlp"
+  activation: "leaky_relu"
+
+  codebook_size: 256
+  n_layers: 3
+  use_bpd: true  # false: w/o BPD; zero-filled blocks participate in full-dimensional quantization
+  quant_loss_weight: 0.1
+  commitment_weight: 0.25
+  cross_modal_pred_weight: 0.2
+  soft_indices: false
+  soft_indices_temperature: 0.2
+
+  assignment_mode: "sinkhorn"
+  sk_epsilons: [0.001, 0.002, 0.003]
+  sk_iters: 100
+  use_sinkhorn_train: true
+  use_sinkhorn_eval: false
+
+  kmeans_init: true
+  kmeans_center_init: "global_mean"  # global_mean | full_exist
+  kmeans_n_init: 10
+  kmeans_init_max_iter: 100
+
+train:
+  batch_size: 2048
+  lr: 1.0e-3
+  weight_decay: 0.0
+  max_epochs: 500
+  eval_every: 1
+  output_dir: "./output"
+  gpu_id: 0
+  seed: 0
+  tensorboard: false
+
+  es_warmup: 10
+  patience: 20
+  es_metric: "collision"
+  semantic_collision_rate_max: 0.01
+  semantic_max_leaf: 5
+  prefix_semantic_weights: [2.0, 1.0]
+  prefix_semantic_tolerance: 1.0e-4
